@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gudlak Guys! 🌟</title>
+    <style>
+        :root {
+            --pastel-pink: #ffb3c6;
+            --pastel-purple: #e1b1ec;
+            --pastel-blue: #a3cef1;
+            --dark-text: #4a4e69;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            background: linear-gradient(135deg, #ffe5ec, #f0e6ff);
+            color: var(--dark-text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating Sparkle Background Effects */
+        .bg-sparkle {
+            position: absolute;
+            position: fixed;
+            font-size: 20px;
+            pointer-events: none;
+            animation: floatUp 6s linear infinite;
+            opacity: 0.6;
+            z-index: 0;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(225, 177, 236, 0.5);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            z-index: 10;
+            border: 3px dashed var(--pastel-pink);
+            transition: all 0.5s ease;
+        }
+
+        h1 {
+            color: #d90429;
+            font-size: 24px;
+            min-height: 60px;
+        }
+
+        /* Typing Effect Styling */
+        .typing-text::after {
+            content: '✏️';
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .btn-style {
+            background-color: var(--pastel-purple);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(163, 206, 241, 0.4);
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .btn-style:hover {
+            transform: scale(1.1) rotate(-2deg);
+            background-color: #c77dff;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Stage 2 Pic 1 Layout */
+        .main-pic-frame {
+            border: 8px solid white;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            cursor: pointer;
+            max-width: 100%;
+            height: auto;
+            max-height: 350px;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .main-pic-frame:hover {
+            transform: scale(1.03) rotate(2deg);
+        }
+
+        /* Stage 3 Flashcard Grid Layout */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .flashcard {
+            perspective: 1000px;
+            height: 180px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .card-front {
+            background-color: #fff;
+            border: 2px solid var(--pastel-blue);
+        }
+
+        .card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #fff0f3, #ffe5ec);
+            color: var(--dark-text);
+            transform: rotateY(180deg);
+            padding: 10px;
+            box-sizing: border-box;
+            border: 2px dashed #ff477e;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* Audio Player Corner */
+        .audio-control {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            background: white;
+            padding: 8px 15px;
+            border-radius: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cute Background Music Toggle Element -->
+    <div class="audio-control" onclick="toggleMusic()">
+        <span id="music-icon">🎵</span> <span id="music-status">Play Music</span>
+        <!-- Aesthetic background royalty free music loop track -->
+        <audio id="bg-music" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+    </div>
+
+    <!-- STAGE 1: Greeting & Intro -->
+    <div id="stage-1" class="container">
+        <h1 id="text-stage-1" class="typing-text"></h1>
+        <button id="btn-stage-1" class="btn-style hidden" onclick="goToStage2()">Click here MWEHEHE 🐾</button>
+    </div>
+
+    <!-- STAGE 2: Photo 1 Transition Card -->
+    <div id="stage-2" class="container hidden">
+        <h2>OMG! Look at this pic! ✨</h2>
+        <p>Click the photo for a surprise transition...</p>
+        <!-- Replace this placeholder with Image 1 link (The Kitten Face) -->
+        <img src="YOUR_IMAGE_1_URL_HERE" id="main-pic" class="main-pic-frame" onclick="triggerPicTransition()" alt="Cute Kitten Face">
+    </div>
+
+    <!-- STAGE 3: Flashcard Grid Setup -->
+    <div id="stage-3" class="container hidden">
+        <h2>Flip the Flashcards! 🗂️✨</h2>
+        <p>Click each photo inside the grid below to reveal your funny motivation notes!</p>
+        
+        <div class="grid-container">
+            <!-- Card 2 -->
+            <div class="flashcard" onclick="flipCard(this)">
+                <div class="flashcard-inner">
+                    <div class="card-front"><img src="YOUR_IMAGE_2_URL_HERE" alt="Group Face Mask"></div>
+                    <div class="card-back">Mukha tayong multo dito pero keri lang, mas tatakutin natin yung exam papers mamaya! MWEHEHE 😂💪</div>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="flashcard" onclick="flipCard(this)">
+                <div class="flashcard-inner">
+                    <div class="card-front"><img src="YOUR_IMAGE_3_URL_HERE" alt="School Hallway"></div>
+                    <div class="card-back">Naalala mo 'to? Stress yarn? Isipin mo nalang matatapos din tong exam season! Gudlak guys! 💕</div>
+                </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="flashcard" onclick="flipCard(this)">
+                <div class="flashcard-inner">
+                    <div class="card-front"><img src="YOUR_IMAGE_4_URL_HERE" alt="Story Edit Screen"></div>
+                    <div class="card-back">Ngiting walang review pero papasa pa rin by faith! Laban lang talaga! 🔥✨</div>
+                </div>
+            </div>
+            <!-- Card 5 -->
+            <div class="flashcard" onclick="flipCard(this)">
+                <div class="flashcard-inner">
+                    <div class="card-front"><img src="YOUR_IMAGE_5_URL_HERE" alt="Butterfly Filter"></div>
+                    <div class="card-back">Magiging kasing ganda ng filter na 'to ang score mo mamaya! Maniwala ka! 🦋👑</div>
+                </div>
+            </div>
+            <!-- Card 6 -->
+            <div class="flashcard" onclick="flipCard(this)">
+                <div class="flashcard-inner">
+                    <div class="card-front"><img src="YOUR_IMAGE_6_URL_HERE" alt="Classmates Selfie"></div>
+                    <div class="card-back">Sama-samang hihula sa multiple choice! Jk, review well guys para solid! ✌️😎</div>
+                </div>
+            </div>
+            <!-- Card 7 -->
+            <div class="flashcard" onclick="flipCard(this)">
+                <div class="flashcard-inner">
+                    <div class="card-front"><img src="YOUR_IMAGE_7_URL_HERE" alt="Wink Selfie"></div>
+                    <div class="card-back">Isang kindat lang sa mahirap na questionnaire, tapos ang laban! MWEHEHE 😉🔥</div>
+                </div>
+            </div>
+            <!-- Card 8 -->
+            <div class="flashcard" onclick="flipCard(this)">
+                <div class="flashcard-inner">
+                    <div class="card-front"><img src="YOUR_IMAGE_8_URL_HERE" alt="Desert Walk"></div>
+                    <div class="card-back">Kahit gaano ka-dry ng utak mo mamaya, may maiisip at maiisip ka pa ring sagot! Keri yan! 🌵☀️</div>
+                </div>
+            </div>
+            <!-- Card 9 -->
+            <div class="flashcard" onclick="flipCard(this)">
+                <div class="flashcard-inner">
+                    <div class="card-front"><img src="YOUR_IMAGE_9_URL_HERE" alt="Alien Park"></div>
+                    <div class="card-back">Hindi tayo alien sa exam na 'to! We belong to the top scores list! Gudlak guys! 👽🚀</div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-style" style="margin-top:25px;" onclick="goToStage4()">Final Surprise! 🎁</button>
+    </div>
+
+    <!-- STAGE 4: Final Interactive Celebration Screen -->
+    <div id="stage-4" class="container hidden">
+        <h2 style="font-size:32px; color:#ff477e; text-shadow: 2px 2px #ffb3c6;">✨ WE ARE PROUD OF YOU! ✨</h2>
+        <p>Nagtabang gyud ta, kaya chill ka lang. Magiging madali lang ang second exam, okay? Inom ng madaming tubig tapos matulog nang maayos!</p>
+        <h1 style="font-size:36px; animation: blink 1s infinite;">🍀 PASADO TAYO! 🍀</h1>
+        <p style="font-weight:bold; color:var(--pastel-purple);">MWEHEHE gudlak guys! Go get those high scores! 🥂🎓</p>
+    </div>
+
+    <script>
+        // Setup Ambient Background Floating Items
+        const elements = ['🌸', '✨', '⭐', '🎈', '🐾', '💖'];
+        for (let i = 0; i < 30; i++) {
+            let sparkle = document.createElement('div');
+            sparkle.className = 'bg-sparkle';
+            sparkle.innerText = elements[Math.floor(Math.random() * elements.length)];
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.animationDelay = Math.random() * 5 + 's';
+            sparkle.style.fontSize = Math.random() * 15 + 15 + 'px';
+            document.body.appendChild(sparkle);
+        }
+
+        // Custom Typing Animation Routine
+        const stage1Text = "HI GUYS! Nagtabang ko og himo ok!? anyways goodluck satong second exam... ✨";
+        let index = 0;
+
+        function typeWriter() {
+            if (index < stage1Text.length) {
+                document.getElementById("text-stage-1").innerHTML += stage1Text.charAt(index);
+                index++;
+                setTimeout(typeWriter, 50);
+            } else {
+                document.getElementById("btn-stage-1").classList.remove("hidden");
+            }
+        }
+
+        // Start typing effect on window render
+        window.onload = typeWriter;
+
+        // Music Control Function
+        function toggleMusic() {
+            const music = document.getElementById('bg-music');
+            const status = document.getElementById('music-status');
+            const icon = document.getElementById('music-icon');
+            
+            if (music.paused) {
+                music.play();
+                status.innerText = "Music Playing";
+                icon.innerText = "🎵✨";
+            } else {
+                music.pause();
+                status.innerText = "Play Music";
+                icon.innerText = "🎵";
+            }
+        }
+
+        // Stage Handling Navigation
+        function goToStage2() {
+            document.getElementById('stage-1').classList.add('hidden');
+            document.getElementById('stage-2').classList.remove('hidden');
+        }
+
+        function triggerPicTransition() {
+            const pic = document.getElementById('main-pic');
+            // Flashcard style bounce and spin transition effect
+            pic.style.transform = "scale(0) rotate(720deg)";
+            pic.style.opacity = "0";
+            
+            setTimeout(() => {
+                document.getElementById('stage-2').classList.add('hidden');
+                document.getElementById('stage-3').classList.remove('hidden');
+            }, 600);
+        }
+
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+
+        function goToStage4() {
+            document.getElementById('stage-3').classList.add('hidden');
+            document.getElementById('stage-4').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
